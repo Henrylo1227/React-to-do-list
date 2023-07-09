@@ -1,35 +1,66 @@
-import {useState} from 'react';
-
+import {useEffect, useState} from 'react';
+import todoServerAPI from '../../api/todoServerAPI';
 import Row from "./row";
+
 function Table () {
 
-    const [taskCollection, setTaskCollection] = useState(
-        [
-            {taskId:'01', selectedState: false, checkState: false, description: 'task1'},
-            {taskId:'02', selectedState: false, checkState: false, description: 'task2'},
-            {taskId:'04', selectedState: false, checkState: false, description: 'task3'},
-            {taskId:'07', selectedState: false, checkState: false, description: 'task4'},
-        ]
-    )
+    // vairables
 
-    const handleCheckBtnClick = index => {
-        // todo async server update
-        
-        // local update
-        const newCollection = [...taskCollection];
-        newCollection[index].checkState = !(newCollection[index].checkState);
-        setTaskCollection(newCollection);
+    // hooks
+    const [taskCollection, setTaskCollection] = useState([]);
+
+    // functions
+    const fetchTableContent = async () => {
+        // Get all existing table content from the server
+        try {
+            const response = await todoServerAPI.get('/todo/all-task');
+            const newTaskList = response.data;
+            const newTaskCollection = []
+            newTaskList.forEach( task => {
+                const newTask = {
+                    taskId: task.task_id,
+                    selectedState: false,
+                    checkState: task.check_state,
+                    description: task.description,
+                }
+                newTaskCollection.push(newTask);
+            });
+            setTaskCollection(newTaskCollection);
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
-    const handleDelBtnClick = (index) => {
-        // todo async server update 
+    // event handlers
+    const handleCheckBtnClick = async (index) => {
+        // modify the check state of the task
+        try {
+            await todoServerAPI.post(
+                '/todo/check-a-task', { taskId: taskCollection[index].taskId,}
+            );
+        } catch (error) {
+            console.error(error.message);
+        }
+        // reload the update to date content from server
+        await fetchTableContent();
+    }
 
-        // local update
-        const upperCollection = taskCollection.slice(0, index);
-        const lowerCollection = taskCollection.slice(index+1);
-        const newCollection = upperCollection.concat(lowerCollection);
-        setTaskCollection(newCollection);
-    }   
+    const handleDelBtnClick = async (index) => {
+        // remove the task from the database
+        try {
+            await todoServerAPI.post(
+                '/todo/remove-a-task', { taskId: taskCollection[index].taskId,}
+            );
+        } catch (error) {
+            console.error(error.message);
+        }
+        // reload the update to date content from server
+        await fetchTableContent();
+    }
+
+    useEffect( () => {
+        fetchTableContent();
+    }, []);
 
     return (
         <div className='table-content'>
