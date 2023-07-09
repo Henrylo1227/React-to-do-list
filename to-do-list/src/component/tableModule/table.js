@@ -1,8 +1,10 @@
 import {useState} from 'react';
 
 import Row from "./row";
+
 function Table () {
 
+    // variables
     const [taskCollection, setTaskCollection] = useState(
         [
             {taskId:'01', selectedState: false, checkState: false, description: 'task1'},
@@ -12,8 +14,16 @@ function Table () {
         ]
     )
 
+    // functions
+    const fetchTableContent = () => {
+        
+    }
+
+    // event handler
+
     const handleCheckBtnClick = index => {
         // todo async server update
+        
         
         // local update
         const newCollection = [...taskCollection];
