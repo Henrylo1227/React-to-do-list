@@ -1,6 +1,6 @@
 import './App.css';
-import Title from './component/title'
-import Table from './component/tableModule/table';
+import Title from './title'
+import Table from './tableModule/table';
 function App() {
   return (
     <div className="App">
