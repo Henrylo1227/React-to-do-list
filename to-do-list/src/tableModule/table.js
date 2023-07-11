@@ -1,15 +1,19 @@
 import {useEffect, useState} from 'react';
 import todoServerAPI from '../api/todoServerAPI';
-import Row from "./component/row";
-import HeaderRow from './component/headerRow';
 
-import getSelectedTaskId from './selector';
+import Row from "./component/row/row";
+import HeaderRow from './component/row/headerRow';
+import AddNewTaskBtn from './component/addNewTaskBtn/addNewTaskBtn';
+import CreateNewTaskModal from './modal/createNewTaskModal';
+
+import getSelectedTaskId from './component/selector/selector';
 
 function Table () {
 
     // vairables
 
     // hooks
+    const [isShowCreateTaskModal, setIsCreateTaskModal] = useState(false); 
     const [isSelectAll, setIsSelectAll] = useState(false);
     const [taskCollection, setTaskCollection] = useState([]);
 
@@ -120,7 +124,7 @@ function Table () {
 
     useEffect( () => {
         fetchTableContent();
-    }, []);
+    }, [isShowCreateTaskModal]);
 
     return (
         <>
@@ -146,6 +150,8 @@ function Table () {
                         />)}
                         )}
             </div>
+            <AddNewTaskBtn onAddTask={()=>setIsCreateTaskModal(true)}/>
+            <CreateNewTaskModal isShow={isShowCreateTaskModal} onClose={()=>setIsCreateTaskModal(false)}/>
         </>
 
     );

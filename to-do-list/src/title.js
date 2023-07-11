@@ -3,9 +3,9 @@ function Title () {
     const titleText = "To Do List";
 
     return (
-            <div className="title">
+            <h1 className="title">
                 {titleText}
-            </div>
+            </h1>
     );
 }
 
