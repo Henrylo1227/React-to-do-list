@@ -4,9 +4,10 @@ import todoServerAPI from '../api/todoServerAPI';
 import Row from "./component/row/row";
 import HeaderRow from './component/row/headerRow';
 import AddNewTaskBtn from './component/addNewTaskBtn/addNewTaskBtn';
+import getSelectedTaskId from './component/selector/selector';
 import CreateNewTaskModal from './modal/createNewTaskModal';
 
-import getSelectedTaskId from './component/selector/selector';
+import Alert from '../alertModule/Alert';
 
 function Table () {
 
@@ -16,6 +17,10 @@ function Table () {
     const [isShowCreateTaskModal, setIsCreateTaskModal] = useState(false); 
     const [isSelectAll, setIsSelectAll] = useState(false);
     const [taskCollection, setTaskCollection] = useState([]);
+    const [alert, setAlert] = useState({
+        mode: 'status',
+        message: 'loading...'
+    });
 
     // functions
     const fetchTableContent = async () => {
@@ -35,7 +40,9 @@ function Table () {
             });
             setTaskCollection(newTaskCollection);
         } catch (error) {
-            console.error(error.message);
+            const message = `Failed to fetch data from server: ${error.message}`;
+            setAlert({mode: 'error',message: message});
+            console.error(message);
         }
     }
 
@@ -49,7 +56,6 @@ function Table () {
         })
         setTaskCollection(newTaskCollection);
         setIsSelectAll(newIsSelectAll);
-
     }
 
     const handleCheckAllBtnClick = async () => {
@@ -127,7 +133,10 @@ function Table () {
     }, [isShowCreateTaskModal]);
 
     return (
-        <>
+        <> 
+            <div className='table-alert'>
+                <Alert alert={alert}/>
+            </div>
             <div className='table-header'>
                 <HeaderRow
                     selecteAllState={isSelectAll}

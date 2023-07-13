@@ -1,4 +1,6 @@
+import { BsCheckLg , BsTrash3Fill } from 'react-icons/bs';
 import './style.css';
+
 
 function HeaderRow({ selecteAllState, onSelectAll, onCheckAll, onDeleteAll }){
     
@@ -7,8 +9,18 @@ function HeaderRow({ selecteAllState, onSelectAll, onCheckAll, onDeleteAll }){
             <input id='checkbox-all' className='tb-fd-selector' type='checkbox' onChange={onSelectAll} checked={selecteAllState}></input>
             <div className='tb-fd-index header'>#</div>
             <div className='tb-fd-description header'>Task</div>
-            <button className='tb-fd-checkbtn header' onClick={onCheckAll}>check selected</button>
-            <button className='tb-fd-delbtn header' onClick={onDeleteAll}>delete selected</button>
+            <button 
+                className='tb-fd-btn' 
+                title='check selected tasks'
+                onClick={onCheckAll}>
+                <BsCheckLg/>
+            </button>
+            <button 
+                className='tb-fd-btn' 
+                title='delete selected tasks'
+                onClick={onDeleteAll}>
+                <BsTrash3Fill/>
+            </button>
         </div>
     );
 }

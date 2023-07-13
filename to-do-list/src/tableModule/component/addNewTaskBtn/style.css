@@ -1,6 +1,24 @@
 .add-new-task-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    padding: 0px;
+    bottom: 5%;
+    left: 75%;
     z-index: 10;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    font-size: xx-large;
+    border-radius: 25px;
+    border: none;
+    color: white;
+    background-color: #8CC0DE;
+    box-shadow: 5px 5px 15px slategray;
+    transition: background-color 0.2s ease-out;
+}
+
+.add-new-task-btn:hover {
+    background-color: #9BCDD2;
 }
