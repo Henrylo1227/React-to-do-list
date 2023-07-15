@@ -9,15 +9,19 @@
 }
 
 .modal-container {
-    background-color: white;
+    background-color: #F4F2DE;
     position: fixed;
-    width: 30%;
+    width: 40%;
     height: 40%;
+    min-width: 400px;
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 1000;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-title {
@@ -25,17 +29,33 @@
     text-align: center;
 }
 
+.btn-icon {
+    font-size: xx-large;
+}
+
 .close-btn {
     position: absolute;
+    background-color: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 25px;
     top: 25px;
+    right: 25px;
+    border: none;
+}
 
-    margin-left: 10px;
-    margin-right: 10px;
+
+.close-btn:hover {
+    animation: rotate;
+    animation-duration: 2s;
 }
 
 .modal-form-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
 }
 
@@ -48,11 +68,35 @@
 
 .submit-btn {
     align-self: flex-end;
+    background-color: #FEFF86;
+    font-size: large;
+    padding: 5px;
+    border-radius: 15px;
+    margin-top: 25px;
 }
 
+label {
+    font-size: larger;
+    width: 80%;
+    margin: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 
+input[name='description'] {
+    font-size: larger;
+    margin: 10px;
+    border-radius: 5px;
+    border: solid 1px #7C9D96;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 
-
-
+@keyframes rotate {
+    0% { transform: rotate(0deg);}
+    100% {transform: rotate(180deg);}
+}
 
 

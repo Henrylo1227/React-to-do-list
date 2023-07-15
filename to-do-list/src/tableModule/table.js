@@ -19,12 +19,10 @@ function Table () {
     const [isShowCreateTaskModal, setIsCreateTaskModal] = useState(false); 
     const [isSelectAll, setIsSelectAll] = useState(false);
     const [taskCollection, setTaskCollection] = useState([]);
-    const [alertList, setAlertList] = useState([
-        {mode: 'success', message: 'success message'},
-        {mode: 'error', message: 'error message'},
-    ]);
+    const [alertList, setAlertList] = useState([]);
 
     // functions
+
     const addNewAlert = ({mode, message}) => {
         const newAlertList = alertList;
         newAlertList.push({mode, message});
@@ -159,6 +157,7 @@ function Table () {
 
     return (
         <div className='table'> 
+            <AddNewTaskBtn onAddTask={()=>setIsCreateTaskModal(true)}/>
             <Alerts alertList={alertList} onCloseAlert={handleCloseAlert}/>
             <div className='table-wrapper'>
                 <div className='table-header'>
@@ -184,8 +183,10 @@ function Table () {
                             />)}
                             )}
                 </div>
-                <AddNewTaskBtn onAddTask={()=>setIsCreateTaskModal(true)}/>
-                <CreateNewTaskModal isShow={isShowCreateTaskModal} onClose={()=>setIsCreateTaskModal(false)}/>
+                <CreateNewTaskModal 
+                    isShow={isShowCreateTaskModal} 
+                    onClose={()=>setIsCreateTaskModal(false)} 
+                    onAlert={(e)=>addNewAlert(e)}/>
             </div>
              
         </div>

@@ -1,11 +1,14 @@
+#add-new-task-btn-container{
+    position: sticky;
+    top: 85%;
+    left: 75%;
+}
+
 .add-new-task-btn{
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
     padding: 0px;
-    bottom: 5%;
-    left: 75%;
     z-index: 10;
     height: 50px;
     width: 50px;

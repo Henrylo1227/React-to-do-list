@@ -1,8 +1,8 @@
 import { createPortal } from 'react-dom';
-
+import { RxCross1 } from 'react-icons/rx';
 import './style.css';
 import todoServerAPI from '../../api/todoServerAPI';
-function CreateNewTaskModal({isShow, onClose}) {    
+function CreateNewTaskModal({isShow, onClose, onAlert}) {    
     
     const handleSubmit = async (e) => {
         // prevent reloading
@@ -17,17 +17,19 @@ function CreateNewTaskModal({isShow, onClose}) {
             return;
         }
 
-
-
-        // todo: submit new task to server
-    
-        await todoServerAPI.post(
-            '/todo/add-task',
-            {
-                description: formJson.description, 
-            }
-        );
-        onClose();
+        try {
+            await todoServerAPI.post(
+                '/todo/add-task',
+                {
+                    description: formJson.description, 
+                }
+            );
+            onAlert({mode: 'success', message: 'Successfully create new task'});
+            onClose();
+        } catch (error) {
+            const message = `Failed to create new task: ${error.message}`;
+            onAlert({mode: 'error', message: message})
+        }
     }
 
     if (!isShow) {
@@ -40,7 +42,9 @@ function CreateNewTaskModal({isShow, onClose}) {
             <div className="modal-container">
                 <div className="modal-title">
                     <h2>Create New Task
-                        <button className='close-btn' onClick={onClose}>close</button>                
+                        <button className='close-btn' onClick={onClose}>
+                            <RxCross1 className='btn-icon'/>
+                        </button>                
                     </h2>
                 </div>
                 <div className='modal-form-container'>
