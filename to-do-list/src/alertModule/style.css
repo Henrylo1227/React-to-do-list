@@ -1,16 +1,28 @@
 .alert-container{
     display: flex;
     justify-content: center;
-    width:100%;
+    width: auto;
+}
+
+.alerts-container {
+    flex-direction: column;
+    position: absolute;
+    top: 8%;
+    right: 10%;
+    width: 15%;
+    flex-direction: row;
+    z-index: 100;
 }
 
 .alert{
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin: 10px;
-    padding: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 8px;
     border-radius: 5px;
     color: white;
 }
@@ -25,13 +37,9 @@
 }
 
 .error{
-    outline-width: 5px;
-    outline-style: dotted;
     background-color: #ef7c8e;
     font-weight: 200;
     animation-name: flash-outline;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
 }
 
 .success{
@@ -39,8 +47,23 @@
     font-weight: 200;
 }
 
-@keyframes flash-outline {
-    0% { outline-color: sandybrown; }
-    50% { outline-color: #FF6666; }
-    100% { outline-color: sandybrown; }
+.remove-btn{
+    background-color: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 25px;
+    color: white;
+    border: none;
+}
+
+.remove-btn:hover {
+    animation: rotate;
+    animation-duration: 2s;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg);}
+    100% {transform: rotate(180deg);}
 }

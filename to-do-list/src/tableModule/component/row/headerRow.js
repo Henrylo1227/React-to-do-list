@@ -5,23 +5,26 @@ import './style.css';
 function HeaderRow({ selecteAllState, onSelectAll, onCheckAll, onDeleteAll }){
     
     return (
-        <div className="table-row-container"> 
-            <input id='checkbox-all' className='tb-fd-selector' type='checkbox' onChange={onSelectAll} checked={selecteAllState}></input>
-            <div className='tb-fd-index header'>#</div>
-            <div className='tb-fd-description header'>Task</div>
-            <button 
-                className='tb-fd-btn' 
-                title='check selected tasks'
-                onClick={onCheckAll}>
-                <BsCheckLg/>
-            </button>
-            <button 
-                className='tb-fd-btn' 
-                title='delete selected tasks'
-                onClick={onDeleteAll}>
-                <BsTrash3Fill/>
-            </button>
+        <div className="row">
+            <div className='header-container'>
+                <input id='checkbox-all' className='tb-fd checkbox' type='checkbox' onChange={onSelectAll} checked={selecteAllState}></input>
+                <div className='tb-fd header'>#</div>
+                <div className='description header'>Task</div>
+                <button 
+                    className='tb-fd check-selected btn' 
+                    title='check selected tasks'
+                    onClick={onCheckAll}>
+                    <BsCheckLg className='btn-icon'/>
+                </button>
+                <button 
+                    className='tb-fd delete-selected btn' 
+                    title='delete selected tasks'
+                    onClick={onDeleteAll}>
+                    <BsTrash3Fill className='btn-icon'/>
+                </button>
+            </div>
         </div>
+
     );
 }
 

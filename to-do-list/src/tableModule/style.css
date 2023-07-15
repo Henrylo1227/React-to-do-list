@@ -1,0 +1,20 @@
+.table{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-wrapper {
+    padding-bottom: 20px;
+    background-color: beige;
+    border: solid 3px #9376E0;
+    border-radius: 20px;
+}
+
+hr {
+    background-color: grey;
+    width: 85%;
+    height: 1px;
+}

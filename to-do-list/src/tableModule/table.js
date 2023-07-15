@@ -7,7 +7,9 @@ import AddNewTaskBtn from './component/addNewTaskBtn/addNewTaskBtn';
 import getSelectedTaskId from './component/selector/selector';
 import CreateNewTaskModal from './modal/createNewTaskModal';
 
-import Alert from '../alertModule/Alert';
+import Alerts from '../alertModule/Alerts';
+
+import './style.css'
 
 function Table () {
 
@@ -17,10 +19,6 @@ function Table () {
     const [isShowCreateTaskModal, setIsCreateTaskModal] = useState(false); 
     const [isSelectAll, setIsSelectAll] = useState(false);
     const [taskCollection, setTaskCollection] = useState([]);
-    const [alert, setAlert] = useState({
-        mode: 'status',
-        message: 'loading...'
-    });
 
     // functions
     const fetchTableContent = async () => {
@@ -41,7 +39,6 @@ function Table () {
             setTaskCollection(newTaskCollection);
         } catch (error) {
             const message = `Failed to fetch data from server: ${error.message}`;
-            setAlert({mode: 'error',message: message});
             console.error(message);
         }
     }
@@ -58,7 +55,7 @@ function Table () {
         setIsSelectAll(newIsSelectAll);
     }
 
-    const handleCheckAllBtnClick = async () => {
+    const handleCheckSekectedBtnClick = async () => {
         const {taskIdList, checkState} = getSelectedTaskId(taskCollection);
         if (taskIdList.length === 0){
             return;
@@ -72,11 +69,12 @@ function Table () {
             await fetchTableContent();
             setIsSelectAll(false);
         } catch (error) {
-            console.trace(error.message);
+            const message = `Failed to check selected task : ${error.message}`;
+            console.trace(message);
         }
     }
 
-    const handleDeleteAllBtnClick = async () => {
+    const handleDeleteSelectedBtnClick = async () => {
         const {taskIdList} = getSelectedTaskId(taskCollection);
         if (taskIdList.length === 0){
             return;
@@ -87,12 +85,13 @@ function Table () {
                 {
                     taskIdList: taskIdList,
                 });
-            await fetchTableContent();
-            setIsSelectAll(false);
-        } catch (error) {
-            console.error(error.message);
-        }
-        
+                await fetchTableContent();
+                setIsSelectAll(false);
+            } catch (error) {
+                const message = `Failed to delete selected task : ${error.message}`;
+                console.trace(message);
+            }
+            
     }
 
     const handleToggleSelect = (index) => {
@@ -107,12 +106,13 @@ function Table () {
         try {
             await todoServerAPI.post(
                 '/todo/check-a-task', { taskId: taskCollection[index].taskId,}
-            );
+                );
+            // reload the update to date content from server
+            await fetchTableContent();
         } catch (error) {
-            console.error(error.message);
+            const message = `Failed to check task : ${error.message}`;
+            console.trace(message);
         }
-        // reload the update to date content from server
-        await fetchTableContent();
     }
 
     const handleDelBtnClick = async (index) => {
@@ -121,11 +121,13 @@ function Table () {
             await todoServerAPI.post(
                 '/todo/remove-a-task', { taskId: taskCollection[index].taskId,}
             );
+            // reload the update to date content from server
+            await fetchTableContent();
+
         } catch (error) {
-            console.error(error.message);
+            const message = `Failed to delete task : ${error.message}`;
+            console.trace(message);
         }
-        // reload the update to date content from server
-        await fetchTableContent();
     }
 
     useEffect( () => {
@@ -133,35 +135,37 @@ function Table () {
     }, [isShowCreateTaskModal]);
 
     return (
-        <> 
-            <div className='table-alert'>
-                <Alert alert={alert}/>
+        <div className='table'> 
+            <Alerts/>
+            <div className='table-wrapper'>
+                <div className='table-header'>
+                    <HeaderRow
+                        selecteAllState={isSelectAll}
+                        onSelectAll={handleToggleSelectAll}
+                        onCheckAll={handleCheckSekectedBtnClick}
+                        onDeleteAll={handleDeleteSelectedBtnClick}    
+                    />
+                </div>
+                <hr/>
+                <div className='table-content'>
+                    {taskCollection.map((record, index) => {
+                        const { taskId, selectedState, checkState, description } = record;
+                        return(
+                            <Row 
+                                key={taskId}
+                                index={index}
+                                task={{taskId, selectedState, checkState, description}}
+                                onToggleSelect={()=>handleToggleSelect(index)}
+                                onCheck={()=>handleCheckBtnClick(index)}
+                                onDelete={()=>handleDelBtnClick(index)}
+                            />)}
+                            )}
+                </div>
+                <AddNewTaskBtn onAddTask={()=>setIsCreateTaskModal(true)}/>
+                <CreateNewTaskModal isShow={isShowCreateTaskModal} onClose={()=>setIsCreateTaskModal(false)}/>
             </div>
-            <div className='table-header'>
-                <HeaderRow
-                    selecteAllState={isSelectAll}
-                    onSelectAll={handleToggleSelectAll}
-                    onCheckAll={handleCheckAllBtnClick}
-                    onDeleteAll={handleDeleteAllBtnClick}    
-                />
-            </div>
-            <div className='table-content'>
-                {taskCollection.map((record, index) => {
-                    const { taskId, selectedState, checkState, description } = record;
-                    return(
-                        <Row 
-                            key={taskId}
-                            index={index}
-                            task={{taskId, selectedState, checkState, description}}
-                            onToggleSelect={()=>handleToggleSelect(index)}
-                            onCheck={()=>handleCheckBtnClick(index)}
-                            onDelete={()=>handleDelBtnClick(index)}
-                        />)}
-                        )}
-            </div>
-            <AddNewTaskBtn onAddTask={()=>setIsCreateTaskModal(true)}/>
-            <CreateNewTaskModal isShow={isShowCreateTaskModal} onClose={()=>setIsCreateTaskModal(false)}/>
-        </>
+             
+        </div>
 
     );
 }

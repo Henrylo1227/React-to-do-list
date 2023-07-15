@@ -1,27 +1,96 @@
-.table-row-container{
+.row{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    padding: 10px;
+    margin: 4px;
 }
 
-.tb-fd-selectState{
-    width: 10%;
-
+.record-container{
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 4px;
+    background-color: #FFFAF4;
+    border: solid 3px rgb(206, 146, 231);
+    border-radius: 10px;
+    font-size: medium;
 }
 
-.tb-fd-index{
-    width: 10%;
+.header-container {
+    margin-top: 20px;
+    font-size: large;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-
-.tb-fd-btn{
+.tb-fd{
     width: 5%;
+}
+
+.checkbox {
+    height: 20px;
+    width: 20px;
+}
+
+.description{
+    width: 35%;
+    min-width: 300px;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+}
+
+.btn-icon{
+    font-size: xx-large;
+}
+
+.check-selected {
+    background-color: rgb(74, 214, 74);
+    color:white;
+}
+
+.check-selected:hover {
+    background-color: rgb(161, 246, 161);
+}
+
+.delete-selected {
+    background-color: rgb(251, 57, 57);
+    color:white;
+}
+
+.delete-selected:hover {
+    background-color: rgb(240, 107, 107);
 
 }
 
-.tb-fd-description{
-    width: 35%;
+.check{
+    background-color: #BEF0CB;
+}
+
+.check:hover{
+    background-color: #A0D995;
+}
+
+.delete{
+    background-color: #FFB3B3;
+}
+
+.delete:hover {
+    background-color: #F16767;
+
 }
 
 .checked{
