@@ -1,18 +1,10 @@
-import { useState } from "react";
 import Alert from "./Alert";
 import './style.css'
-function Alerts () {
 
-    const [alertList, setAlertList] = useState([
-        {mode: 'success', message: 'success message'},
-        {mode: 'error', message: 'error message'},
-    ]);
-
+function Alerts ({ alertList, onCloseAlert}) {
     return(
         <div className='alerts-container'>
-            <div>
-                {alertList.map(alert => <Alert alert={alert}/>)}
-            </div>
+                {alertList.map( (alert, index) => <Alert key={index} alert={alert} onClose={()=>onCloseAlert(index)} /> )}
         </div>
     )
 }

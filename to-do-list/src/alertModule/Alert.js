@@ -1,7 +1,7 @@
 import './style.css';
 import { RxCross1 } from 'react-icons/rx';
 
-function Alert({ alert }) {
+function Alert({ alert, onClose }) {
     if ( alert === null ) {
         return;
     }
@@ -12,9 +12,9 @@ function Alert({ alert }) {
     return (
         <>
             <div className='alert-container'>
-                <div className={alertClassName}>
+                <div className={alertClassName} >
                     {message}
-                    <button className='remove-btn'>
+                    <button className='remove-btn' onClick={onClose}>
                         <RxCross1 className='btn-icon'/>
                     </button>
                 </div>

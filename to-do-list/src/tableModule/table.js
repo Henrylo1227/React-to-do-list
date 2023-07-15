@@ -19,8 +19,23 @@ function Table () {
     const [isShowCreateTaskModal, setIsCreateTaskModal] = useState(false); 
     const [isSelectAll, setIsSelectAll] = useState(false);
     const [taskCollection, setTaskCollection] = useState([]);
+    const [alertList, setAlertList] = useState([
+        {mode: 'success', message: 'success message'},
+        {mode: 'error', message: 'error message'},
+    ]);
 
     // functions
+    const addNewAlert = ({mode, message}) => {
+        const newAlertList = alertList;
+        newAlertList.push({mode, message});
+        setAlertList(newAlertList);
+    }
+
+    const handleCloseAlert = (index) => {
+        const newAlertList = alertList.slice(0, index);
+        setAlertList(newAlertList.concat(alertList.slice(index+1)));
+    }
+
     const fetchTableContent = async () => {
         // Get all existing table content from the server
         try {
@@ -68,8 +83,10 @@ function Table () {
                 });
             await fetchTableContent();
             setIsSelectAll(false);
+            addNewAlert({mode: 'success', message: `Successfully ${!checkState? 'check':'uncheck'} selected task`});
         } catch (error) {
             const message = `Failed to check selected task : ${error.message}`;
+            addNewAlert({mode: 'error', message: message});
             console.trace(message);
         }
     }
@@ -87,8 +104,10 @@ function Table () {
                 });
                 await fetchTableContent();
                 setIsSelectAll(false);
+                addNewAlert({mode: 'success', message: `Successfully deleted task`});
             } catch (error) {
                 const message = `Failed to delete selected task : ${error.message}`;
+                addNewAlert({mode: 'error', message: message});
                 console.trace(message);
             }
             
@@ -102,6 +121,7 @@ function Table () {
     }
 
     const handleCheckBtnClick = async (index) => {
+        const mode = taskCollection[index].checkState? 'uncheck' : 'check';
         // modify the check state of the task
         try {
             await todoServerAPI.post(
@@ -109,8 +129,10 @@ function Table () {
                 );
             // reload the update to date content from server
             await fetchTableContent();
+            addNewAlert({mode: 'success', message: `Successfully ${mode}ed task`});
         } catch (error) {
-            const message = `Failed to check task : ${error.message}`;
+            const message = `Failed to ${mode} task : ${error.message}`;
+            addNewAlert({mode: 'error', message: message});
             console.trace(message);
         }
     }
@@ -123,9 +145,10 @@ function Table () {
             );
             // reload the update to date content from server
             await fetchTableContent();
-
+            addNewAlert({mode: 'success', message: `Successfully deleted task`});
         } catch (error) {
             const message = `Failed to delete task : ${error.message}`;
+            addNewAlert({mode: 'error', message: message});
             console.trace(message);
         }
     }
@@ -136,7 +159,7 @@ function Table () {
 
     return (
         <div className='table'> 
-            <Alerts/>
+            <Alerts alertList={alertList} onCloseAlert={handleCloseAlert}/>
             <div className='table-wrapper'>
                 <div className='table-header'>
                     <HeaderRow

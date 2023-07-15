@@ -5,12 +5,12 @@
 }
 
 .alerts-container {
-    flex-direction: column;
     position: absolute;
     top: 8%;
     right: 10%;
     width: 15%;
-    flex-direction: row;
+    display: flex;
+    flex-direction: column-reverse;
     z-index: 100;
 }
 
